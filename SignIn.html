@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Sign In</title>
+</head>
+<body class="login">
+
+  <header class="login-header">
+    <img src="image/logo.png" class="login-logo" alt="Logo">
+  </header>
+
+  <div class="login-wrapper">
+    <form id="loginForm" class="login-form">
+      <h1>Sign in</h1>
+
+      <div class="login-input-box">
+        <input type="text" id="email" required>
+        <label>Email</label>
+        <i class='bx bxs-user'></i>
+      </div>
+
+      <div class="login-input-box">
+        <input type="password" id="password" required>
+        <label>Password</label>
+        <i class='bx bx-hide toggle-password' id="togglePasswordIcon"></i>
+      </div>
+      
+      <div class="login-remember-forgot">
+        <label class="login-remember">
+          <input type="checkbox"> Remember me
+        </label>
+        <a href="#" class="forgot-password">Forgot password?</a>
+      </div>
+      
+      <button type="submit" class="login-btn">Sign in</button>
+
+      <div class="login-register-link">
+        <p>New to WATCHITALL? <a href="register.html">Sign up now</a></p>
+      </div>
+    </form>
+  </div>
+
+  <div class="bottom-line"></div>
+  <footer class="footer">
+    <div class="footer-top">
+      <p>Questions? Call <a href="tel:085798061625">085798061625</a></p>
+    </div>
+    <div class="footer-links">
+      <a href="#">FAQ</a>
+      <a href="#">Privacy</a>
+      <a href="#">Help Center</a>
+      <a href="#">Cookie Preferences</a>
+      <a href="#">Terms of Use</a>
+    </div>
+    <div class="footer-lang">
+      <select>
+        <option>English</option>
+        <option>Bahasa Indonesia</option>
+      </select>
+    </div>
+  </footer>
+      
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Toggle password visibility
+    document.getElementById('togglePasswordIcon').addEventListener('click', function() {
+      const passwordField = document.getElementById('password');
+      const icon = this;
+      
+      if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        icon.classList.remove('bx-hide');
+        icon.classList.add('bx-show');
+      } else {
+        passwordField.type = 'password';
+        icon.classList.remove('bx-show');
+        icon.classList.add('bx-hide');
+      }
+    });
+
+    // Handle form submission
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      // Get user data from localStorage
+      const userData = JSON.parse(localStorage.getItem('userData'));
+      
+      // Check if user exists
+      if (!userData) {
+        alert("Akun tidak ditemukan. Silakan registrasi terlebih dahulu.");
+        window.location.href = "register.html";
+        return;
+      }
+      
+      // Check credentials
+      if (userData.email !== email || userData.password !== password) {
+        alert("Email atau password salah");
+        return;
+      }
+      
+      // Check payment status
+      if (!userData.isPaid) {
+        alert("Anda belum melakukan pembayaran. Silakan selesaikan pembayaran terlebih dahulu.");
+        window.location.href = "payment.html?plan=" + encodeURIComponent(userData.plan || "Premium") + 
+                              "&price=" + (userData.price || 225000);
+        return;
+      }
+      
+      // Save login status and redirect to index
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('loggedInUser', JSON.stringify(userData));
+      window.location.href = "index.html";
+    });
+  });
+</script>
+</body>
+</html>

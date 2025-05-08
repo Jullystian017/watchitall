@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="style2.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+</head>
+<body>
+  <header>
+    <img src="image/logo.png" class="Logo">
+    <div class="language-signup">
+      <button class="signup-btn">Sign Up</button>
+    </div>
+  </header>
+
+  <div class="wrapper">
+    <form>
+      <p class="wrapper-step">STEP 1 OF 3</p>
+      <h1>Create A Account To Start<br>Your Membership</h1>
+
+      <div class="input-box">
+        <input type="email" id="email" placeholder="Email" required>
+        <i class='bx bxs-envelope'></i>
+      </div>
+
+      <div class="input-box">
+        <input type="password" id="password" placeholder="Password" required>
+        <i class='bx bxs-lock-alt'></i>
+      </div>
+
+      <button type="submit" class="btn" id="next-btn">Next</button> 
+    </form>
+  </div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const email = localStorage.getItem('preRegisterEmail');
+      if (email) {
+        document.getElementById('email').value = email;
+      }
+    });
+  </script>
+  
+
+  <!-- In register.html, modify the script section -->
+<script>
+  document.getElementById("next-btn").addEventListener("click", function(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    // Email validation
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!emailPattern.test(email)) {
+      alert("Masukkan email yang valid.");
+      return;
+    }
+
+    // Password validation (minimum 6 characters)
+    if (password.length < 6) {
+      alert("Password harus minimal 6 karakter");
+      return;
+    }
+
+    // Save user data to localStorage (not paid yet)
+    const userData = {
+      email: email,
+      password: password,
+      isPaid: false
+    };
+    localStorage.setItem('userData', JSON.stringify(userData));
+    
+    // Redirect to membership page
+    window.location.href = "membership.html";
+  });
+</script>
+
+
+  <div class="bottom-line"></div>
+  <footer class="footer">
+    <div class="footer-top">
+      <p>Questions? Call <a href="tel:085798061625">085798061625</a></p>
+    </div>
+    <div class="footer-links">
+      <a href="#">FAQ</a>
+      <a href="#">Privacy</a>
+      <a href="#">Help Center</a>
+      <a href="#">Cookie Preferences</a>
+      <a href="#">Terms of Use</a>
+    </div>
+    <div class="footer-lang">
+      <select>
+        <option>English</option>
+        <option>Bahasa Indonesia</option>
+      </select>
+    </div>
+  </footer>
+
+ <script src="register.js"></script>
+
+</body>
+</html>
